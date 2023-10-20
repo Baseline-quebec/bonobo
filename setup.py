@@ -8,6 +8,8 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
+
+
 # Py3 compatibility hacks, borrowed from IPython.
 try:
     execfile
@@ -42,19 +44,19 @@ else:
     version = version_ns.get('__version__', 'dev')
 
 setup(
-    author='Romain Dorgueil',
-    author_email='romain@dorgueil.net',
+    author='Baseline',
+    author_email='info@baseline.quebec',
     data_files=[('share/jupyter/nbextensions/bonobo-jupyter', [
         'bonobo/contrib/jupyter/static/extension.js',
         'bonobo/contrib/jupyter/static/index.js',
         'bonobo/contrib/jupyter/static/index.js.map'
     ])],
     description=
-    ('Bonobo, a simple, modern and atomic extract-transform-load toolkit for '
+    ('Bonobo for Baseline, a simple, modern and atomic extract-transform-load toolkit for '
      'python 3.5+.'),
     license='Apache License, Version 2.0',
-    name='bonobo',
-    python_requires='>=3.5',
+    name='bonobo_baseline',
+    python_requires='>=3.8',
     version=version,
     long_description=long_description,
     classifiers=classifiers,
@@ -68,7 +70,7 @@ setup(
     ],
     extras_require={
         'dev': [
-            'cookiecutter >= 1.5, < 1.6', 'coverage ~= 4.5', 'pytest ~= 4.6',
+            'cookiecutter >= 1.5, < 1.6', 'coverage ~= 4.5', 'pytest >= 4.6',
             'pytest-cov ~= 2.7', 'pytest-timeout >= 1, < 2', 'sphinx ~= 1.7',
             'sphinx-sitemap >= 0.2, < 0.3'
         ],
@@ -88,7 +90,6 @@ setup(
         ],
         'console_scripts': ['bonobo = bonobo.commands:entrypoint']
     },
-    url='https://www.bonobo-project.org/',
-    download_url='https://github.com/python-bonobo/bonobo/tarball/{version}'.
-    format(version=version),
+    url='https://github.com/Baseline-quebec/bonobo/',
+    download_url="https://github.com/Baseline-quebec/bonobo/archive/refs/tags/" + version + ".zip",
 )
