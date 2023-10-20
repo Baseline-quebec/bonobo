@@ -60,7 +60,12 @@ def test_execution():
         (8, "Yukihiro", "yukihiro.rb"),
     ]
 
-    assert result_nt == [(1, "GUIDO", ".py"), (2, "LARRY", ".pl"), (3, "DENNIS", ".c"), (4, "YUKIHIRO", ".rb")]
+    assert result_nt == [
+        (1, "GUIDO", ".py"),
+        (2, "LARRY", ".pl"),
+        (3, "DENNIS", ".c"),
+        (4, "YUKIHIRO", ".rb"),
+    ]
 
     assert result_bt == [
         (2, "Guido", "guido.py"),

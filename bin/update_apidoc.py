@@ -44,7 +44,11 @@ prefixes = {
 }
 api_objects = {}
 
-display_order = [("bonobo.structs.graphs", "Graphs"), ("bonobo.nodes", "Nodes"), ("bonobo", "Other top-level APIs")]
+display_order = [
+    ("bonobo.structs.graphs", "Graphs"),
+    ("bonobo.nodes", "Nodes"),
+    ("bonobo", "Other top-level APIs"),
+]
 
 for name in sorted(dir(bonobo)):
     # ignore attributes starting by underscores
@@ -97,13 +101,20 @@ for family, title in display_order:
             api_content.append(api_object[0])
             api_content.append("-" * len(api_object[0]))
             api_content.append("")
-            api_content.append(".. auto{}:: {}.{}".format(object_type, family, api_object[0]))
+            api_content.append(
+                ".. auto{}:: {}.{}".format(object_type, family, api_object[0])
+            )
 
 
 print("\n".join(api_content))
 
 modules = [
-    Module("bonobo", title="Bonobo", automodule_options=["no-members"], append="\n".join(api_content)),
+    Module(
+        "bonobo",
+        title="Bonobo",
+        automodule_options=["no-members"],
+        append="\n".join(api_content),
+    ),
     Module("bonobo.config"),
     Module("bonobo.constants", automodule_options=["no-members"]),
     Module("bonobo.execution"),

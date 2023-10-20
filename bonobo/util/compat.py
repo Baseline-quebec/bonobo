@@ -7,7 +7,9 @@ def deprecated_alias(alias, func):
     def new_func(*args, **kwargs):
         warnings.simplefilter("always", DeprecationWarning)  # turn off filter
         warnings.warn(
-            "Call to deprecated function alias {}, use {} instead.".format(alias, func.__name__),
+            "Call to deprecated function alias {}, use {} instead.".format(
+                alias, func.__name__
+            ),
             category=DeprecationWarning,
             stacklevel=2,
         )
@@ -26,7 +28,9 @@ def deprecated(func):
     def new_func(*args, **kwargs):
         warnings.simplefilter("always", DeprecationWarning)  # turn off filter
         warnings.warn(
-            "Call to deprecated function {}.".format(func.__name__), category=DeprecationWarning, stacklevel=2
+            "Call to deprecated function {}.".format(func.__name__),
+            category=DeprecationWarning,
+            stacklevel=2,
         )
         warnings.simplefilter("default", DeprecationWarning)  # reset filter
         return func(*args, **kwargs)

@@ -74,7 +74,9 @@ class Lifecycle:
         self.start()
         return self
 
-    def __exit__(self, exc_type=None, exc_val=None, exc_tb=None):  # lgtm [py/special-method-wrong-signature]
+    def __exit__(
+        self, exc_type=None, exc_val=None, exc_tb=None
+    ):  # lgtm [py/special-method-wrong-signature]
         self.stop()
 
     def get_flags_as_string(self):
@@ -88,13 +90,19 @@ class Lifecycle:
 
     def start(self):
         if self.started:
-            raise RuntimeError("This context is already started ({}).".format(get_name(self)))
+            raise RuntimeError(
+                "This context is already started ({}).".format(get_name(self))
+            )
 
         self._started = True
 
     def stop(self):
         if not self.started:
-            raise RuntimeError("This context cannot be stopped as it never started ({}).".format(get_name(self)))
+            raise RuntimeError(
+                "This context cannot be stopped as it never started ({}).".format(
+                    get_name(self)
+                )
+            )
 
         self._stopped = True
 

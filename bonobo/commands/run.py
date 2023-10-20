@@ -39,7 +39,9 @@ class RunCommand(BaseGraphCommand):
     def _run_module(self, mod):
         # install not implemented for a module, not sure it even make sense.
         if self.install:
-            raise RuntimeError("--install behaviour when running a module is not defined.")
+            raise RuntimeError(
+                "--install behaviour when running a module is not defined."
+            )
 
         return super()._run_module(mod)
 

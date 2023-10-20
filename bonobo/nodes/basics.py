@@ -6,7 +6,14 @@ import pprint
 from mondrian import term
 
 from bonobo import settings
-from bonobo.config import Configurable, Method, Option, use_context, use_no_input, use_raw_input
+from bonobo.config import (
+    Configurable,
+    Method,
+    Option,
+    use_context,
+    use_no_input,
+    use_raw_input,
+)
 from bonobo.config.functools import transformation_factory
 from bonobo.config.processors import ContextProcessor, use_context_processor
 from bonobo.constants import NOT_MODIFIED
@@ -119,9 +126,15 @@ class PrettyPrinter(Configurable):
         return NOT_MODIFIED
 
     def print_quiet(self, context, *args, **kwargs):
-        for index, (key, value) in enumerate(itertools.chain(enumerate(args), kwargs.items())):
+        for index, (key, value) in enumerate(
+            itertools.chain(enumerate(args), kwargs.items())
+        ):
             if self.filter(index, key, value):
-                print(self.format_quiet(index, key, value, fields=context.get_input_fields()))
+                print(
+                    self.format_quiet(
+                        index, key, value, fields=context.get_input_fields()
+                    )
+                )
 
     def format_quiet(self, index, key, value, *, fields=None):
         # XXX should we implement argnames here ?
@@ -129,9 +142,15 @@ class PrettyPrinter(Configurable):
 
     def print_console(self, context, *args, **kwargs):
         print("\u250c")
-        for index, (key, value) in enumerate(itertools.chain(enumerate(args), kwargs.items())):
+        for index, (key, value) in enumerate(
+            itertools.chain(enumerate(args), kwargs.items())
+        ):
             if self.filter(index, key, value):
-                print(self.format_console(index, key, value, fields=context.get_input_fields()))
+                print(
+                    self.format_console(
+                        index, key, value, fields=context.get_input_fields()
+                    )
+                )
         print("\u2514")
 
     def format_console(self, index, key, value, *, fields=None):
@@ -150,19 +169,34 @@ class PrettyPrinter(Configurable):
                 yield (prefix if i else "") + line + CLEAR_EOL + "\n"
 
         repr_of_value = "".join(
-            indent(pprint.pformat(value, width=self.max_width - prefix_length), "\u2502" + " " * (len(prefix) - 1))
+            indent(
+                pprint.pformat(value, width=self.max_width - prefix_length),
+                "\u2502" + " " * (len(prefix) - 1),
+            )
         ).strip()
-        return "{}{}{}".format(prefix, repr_of_value.replace("\n", CLEAR_EOL + "\n"), CLEAR_EOL)
+        return "{}{}{}".format(
+            prefix, repr_of_value.replace("\n", CLEAR_EOL + "\n"), CLEAR_EOL
+        )
 
     def print_jupyter(self, context, *args):
         if not context._jupyter_html:
             context._jupyter_html = [
                 "<thead><tr>",
-                *map("<th>{}</th>".format, map(html.escape, map(str, context.get_input_fields() or range(len(args))))),
+                *map(
+                    "<th>{}</th>".format,
+                    map(
+                        html.escape,
+                        map(str, context.get_input_fields() or range(len(args))),
+                    ),
+                ),
                 "</tr></thead>",
             ]
 
-        context._jupyter_html += ["<tr>", *map("<td>{}</td>".format, map(html.escape, map(repr, args))), "</tr>"]
+        context._jupyter_html += [
+            "<tr>",
+            *map("<td>{}</td>".format, map(html.escape, map(repr, args))),
+            "</tr>",
+        ]
 
 
 @use_no_input
@@ -213,7 +247,9 @@ def OrderFields(fields):
         nonlocal fields
         context.setdefault("remaining", None)
         if not context.output_type:
-            context.remaining = list(sorted(set(context.get_input_fields()) - set(fields)))
+            context.remaining = list(
+                sorted(set(context.get_input_fields()) - set(fields))
+            )
             context.set_output_fields(fields + context.remaining)
 
         yield tuple(row.get(field) for field in context.get_output_fields())
@@ -266,7 +302,9 @@ def UnpackItems(*items, fields=None, defaults=None):
 
         values = ()
         for item in items:
-            values += tuple(bag[item].get(field, defaults.get(field)) for field in fields)
+            values += tuple(
+                bag[item].get(field, defaults.get(field)) for field in fields
+            )
 
         return values
 
@@ -286,7 +324,9 @@ def Rename(**translations):
         nonlocal fields, translations
 
         if not fields:
-            fields = tuple(translations.get(field, field) for field in context.get_input_fields())
+            fields = tuple(
+                translations.get(field, field) for field in context.get_input_fields()
+            )
             context.set_output_fields(fields)
 
         return NOT_MODIFIED
@@ -309,7 +349,9 @@ def Format(**formats):
             context.set_output_fields(fields + newfields)
 
         return tuple(
-            formats[field].format(**bag._asdict()) if field in formats else bag.get(field)
+            formats[field].format(**bag._asdict())
+            if field in formats
+            else bag.get(field)
             for field in fields + newfields
         )
 
@@ -343,10 +385,14 @@ def MapFields(function, key=True):
                 fields = bag._fields
             except AttributeError as e:
                 raise UnrecoverableAttributeError(
-                    "This transformation works only on objects with named" " fields (namedtuple, BagType, ...)."
+                    "This transformation works only on objects with named"
+                    " fields (namedtuple, BagType, ...)."
                 ) from e
 
-            return factory(function(value) if key(key_) else value for key_, value in zip(fields, bag))
+            return factory(
+                function(value) if key(key_) else value
+                for key_, value in zip(fields, bag)
+            )
         elif key:
             return factory(function(value) for value in bag)
         else:

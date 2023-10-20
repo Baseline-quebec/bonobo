@@ -5,7 +5,7 @@ import bonobo
 
 
 def extract():
-    """Placeholder, change, rename, remove... """
+    """Placeholder, change, rename, remove..."""
     for x in range(60):
         if x:
             time.sleep(1)

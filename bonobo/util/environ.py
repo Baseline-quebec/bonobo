@@ -37,7 +37,11 @@ def load_env_from_file(filename):
             if not line or line.startswith("#"):
                 continue
             if "=" not in line:
-                raise SyntaxError("Invalid environment file syntax in {} at line {}.".format(filename, lineno + 1))
+                raise SyntaxError(
+                    "Invalid environment file syntax in {} at line {}.".format(
+                        filename, lineno + 1
+                    )
+                )
 
             name, value = parse_var(line)
 

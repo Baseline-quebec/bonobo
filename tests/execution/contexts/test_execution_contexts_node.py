@@ -7,7 +7,10 @@ from bonobo.constants import EMPTY
 from bonobo.execution.contexts.node import NodeExecutionContext, split_token
 from bonobo.execution.strategies import NaiveStrategy
 from bonobo.util.envelopes import F_INHERIT, F_NOT_MODIFIED
-from bonobo.util.testing import BufferingGraphExecutionContext, BufferingNodeExecutionContext
+from bonobo.util.testing import (
+    BufferingGraphExecutionContext,
+    BufferingNodeExecutionContext,
+)
 
 
 def test_node_string():

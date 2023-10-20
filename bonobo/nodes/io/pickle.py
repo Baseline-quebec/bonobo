@@ -47,7 +47,11 @@ class PickleReader(FileReader, PickleHandler):
 
         for row in iterator:
             if len(row) != fields_length:
-                raise ValueError("Received an object with {} items, expected {}.".format(len(row), fields_length))
+                raise ValueError(
+                    "Received an object with {} items, expected {}.".format(
+                        len(row), fields_length
+                    )
+                )
 
             yield tuple(row.values() if is_dict else row)
 

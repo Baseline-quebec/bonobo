@@ -8,7 +8,9 @@ from bonobo.execution.contexts.node import NodeExecutionContext
 from bonobo.util.testing import BufferingNodeExecutionContext, FilesystemTester
 
 pickle_tester = FilesystemTester("pkl", mode="wb")
-pickle_tester.input_data = pickle.dumps([["a", "b", "c"], ["a foo", "b foo", "c foo"], ["a bar", "b bar", "c bar"]])
+pickle_tester.input_data = pickle.dumps(
+    [["a", "b", "c"], ["a foo", "b foo", "c foo"], ["a bar", "b bar", "c bar"]]
+)
 
 
 def test_write_pickled_dict_to_file(tmpdir):
@@ -27,7 +29,9 @@ def test_write_pickled_dict_to_file(tmpdir):
 def test_read_pickled_list_from_file(tmpdir):
     fs, filename, services = pickle_tester.get_services_for_reader(tmpdir)
 
-    with BufferingNodeExecutionContext(PickleReader(filename), services=services) as context:
+    with BufferingNodeExecutionContext(
+        PickleReader(filename), services=services
+    ) as context:
         context.write_sync(EMPTY)
 
     output = context.get_buffer()

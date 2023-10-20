@@ -16,7 +16,9 @@ class InactiveWritableError(InactiveIOError):
 class ValidationError(RuntimeError):
     def __init__(self, inst, message):
         super(ValidationError, self).__init__(
-            "Validation error in {class_name}: {message}".format(class_name=type(inst).__name__, message=message)
+            "Validation error in {class_name}: {message}".format(
+                class_name=type(inst).__name__, message=message
+            )
         )
 
 
@@ -30,7 +32,8 @@ class ConfigurationError(Exception):
 
 class UnrecoverableError(Exception):
     """Flag for errors that must interrupt the workflow, either because they will happen for sure on each node run, or
-    because you know that your transformation has no point continuing running after a bad event."""
+    because you know that your transformation has no point continuing running after a bad event.
+    """
 
 
 class AbstractError(UnrecoverableError, NotImplementedError):

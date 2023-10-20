@@ -7,7 +7,9 @@ at home if you want to give it a shot.
 
 """
 from bonobo.execution.strategies.executor import (
-    AsyncThreadPoolExecutorStrategy, ProcessPoolExecutorStrategy, ThreadPoolExecutorStrategy
+    AsyncThreadPoolExecutorStrategy,
+    ProcessPoolExecutorStrategy,
+    ThreadPoolExecutorStrategy,
 )
 from bonobo.execution.strategies.naive import NaiveStrategy
 
@@ -27,7 +29,7 @@ def create_strategy(name=None):
     """
     Create a strategy, or just returns it if it's already one.
 
-    :param name: 
+    :param name:
     :return: Strategy
     """
     import logging
@@ -45,7 +47,9 @@ def create_strategy(name=None):
         factory = STRATEGIES[name]
     except KeyError as exc:
         raise RuntimeError(
-            "Invalid strategy {}. Available choices: {}.".format(repr(name), ", ".join(sorted(STRATEGIES.keys())))
+            "Invalid strategy {}. Available choices: {}.".format(
+                repr(name), ", ".join(sorted(STRATEGIES.keys()))
+            )
         ) from exc
 
     return factory()

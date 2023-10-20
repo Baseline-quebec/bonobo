@@ -106,7 +106,9 @@ def istuple(mixed):
     return isinstance(mixed, tuple)
 
 
-ConfigurableInspection = namedtuple("ConfigurableInspection", ["type", "instance", "options", "processors", "partial"])
+ConfigurableInspection = namedtuple(
+    "ConfigurableInspection", ["type", "instance", "options", "processors", "partial"]
+)
 
 ConfigurableInspection.__enter__ = lambda self: self
 ConfigurableInspection.__exit__ = lambda *exc_details: None
@@ -137,4 +139,6 @@ def inspect_node(mixed, *, _partial=None):
             "Not a Configurable, nor a Configurable instance and not even a partially configured Configurable. Check your inputs."
         )
 
-    return ConfigurableInspection(typ, inst, list(typ.__options__), list(typ.__processors__), _partial)
+    return ConfigurableInspection(
+        typ, inst, list(typ.__options__), list(typ.__processors__), _partial
+    )

@@ -35,19 +35,31 @@ class TestBagType(unittest.TestCase):
         assert Point._fields == ("x", "y")
         assert Point._attrs == ("x", "y")
 
-        self.assertRaises(ValueError, BagType, "abc%", ("efg", "ghi"))  # type has non-alpha char
-        self.assertRaises(ValueError, BagType, "class", ("efg", "ghi"))  # type has keyword
-        self.assertRaises(ValueError, BagType, "9abc", ("efg", "ghi"))  # type starts with digit
+        self.assertRaises(
+            ValueError, BagType, "abc%", ("efg", "ghi")
+        )  # type has non-alpha char
+        self.assertRaises(
+            ValueError, BagType, "class", ("efg", "ghi")
+        )  # type has keyword
+        self.assertRaises(
+            ValueError, BagType, "9abc", ("efg", "ghi")
+        )  # type starts with digit
 
         assert self._create("efg", "g%hi")._attrs == ("efg", "g_hi")
         assert self._create("abc", "class")._attrs == ("abc", "_class")
         assert self._create("8efg", "9ghi")._attrs == ("_8efg", "_9ghi")
         assert self._create("_efg", "ghi")._attrs == ("_efg", "ghi")
 
-        self.assertRaises(ValueError, BagType, "abc", ("efg", "efg", "ghi"))  # duplicate field
+        self.assertRaises(
+            ValueError, BagType, "abc", ("efg", "efg", "ghi")
+        )  # duplicate field
 
-        self._create("x1", "y2", typename="Point0")  # Verify that numbers are allowed in names
-        self._create("a", "b", "c", typename="_")  # Test leading underscores in a typename
+        self._create(
+            "x1", "y2", typename="Point0"
+        )  # Verify that numbers are allowed in names
+        self._create(
+            "a", "b", "c", typename="_"
+        )  # Test leading underscores in a typename
 
         bt = self._create("a!", "a?")
         assert bt._attrs == ("a0", "a1")
@@ -64,12 +76,16 @@ class TestBagType(unittest.TestCase):
         self.assertRaises(TypeError, Point._make, [11])  # catch too few args
         self.assertRaises(TypeError, Point._make, [11, 22, 33])  # catch too many args
 
-    @unittest.skipIf(sys.flags.optimize >= 2, "Docstrings are omitted with -O2 and above")
+    @unittest.skipIf(
+        sys.flags.optimize >= 2, "Docstrings are omitted with -O2 and above"
+    )
     def test_factory_doc_attr(self):
         Point = BagType("Point", ("x", "y"))
         self.assertEqual(Point.__doc__, "Point(x, y)")
 
-    @unittest.skipIf(sys.flags.optimize >= 2, "Docstrings are omitted with -O2 and above")
+    @unittest.skipIf(
+        sys.flags.optimize >= 2, "Docstrings are omitted with -O2 and above"
+    )
     def test_doc_writable(self):
         Point = BagType("Point", ("x", "y"))
         self.assertEqual(Point.x.__doc__, "Alias for 'x'")
@@ -101,8 +117,12 @@ class TestBagType(unittest.TestCase):
         self.assertEqual(p, Point(**dict(x=11, y=22)))
         self.assertRaises(TypeError, Point, 1)  # too few args
         self.assertRaises(TypeError, Point, 1, 2, 3)  # too many args
-        self.assertRaises(TypeError, eval, "Point(XXX=1, y=2)", locals())  # wrong keyword argument
-        self.assertRaises(TypeError, eval, "Point(x=1)", locals())  # missing keyword argument
+        self.assertRaises(
+            TypeError, eval, "Point(XXX=1, y=2)", locals()
+        )  # wrong keyword argument
+        self.assertRaises(
+            TypeError, eval, "Point(x=1)", locals()
+        )  # missing keyword argument
         self.assertEqual(repr(p), "Point(x=11, y=22)")
         self.assertNotIn("__weakref__", dir(p))
         self.assertEqual(p, Point._make([11, 22]))  # test _make classmethod
@@ -157,7 +177,12 @@ class TestBagType(unittest.TestCase):
         self.assertEqual(Dot(1)._fields, ("d",))
 
         n = 5000 if sys.version_info >= (3, 7) else 254
-        names = list(set("".join([choice(string.ascii_letters) for j in range(10)]) for i in range(n)))
+        names = list(
+            set(
+                "".join([choice(string.ascii_letters) for j in range(10)])
+                for i in range(n)
+            )
+        )
         n = len(names)
         Big = BagType("Big", names)
         b = Big(*range(n))

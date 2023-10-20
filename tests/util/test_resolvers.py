@@ -1,5 +1,9 @@
 import bonobo
-from bonobo.util.resolvers import _parse_option, _resolve_options, _resolve_transformations
+from bonobo.util.resolvers import (
+    _parse_option,
+    _resolve_options,
+    _resolve_transformations,
+)
 
 
 def test_parse_option():

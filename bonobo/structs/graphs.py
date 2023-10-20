@@ -32,7 +32,7 @@ class GraphCursor:
         self.last = last
 
     def __rshift__(self, other):
-        """ Self >> Other """
+        """Self >> Other"""
 
         # Allow to concatenate cursors.
         if isinstance(other, GraphCursor):
@@ -50,8 +50,12 @@ class GraphCursor:
 
         # If there are nodes to add, create a new cursor after the chain is added to the graph.
         if len(nodes):
-            chain = self.graph.add_chain(*nodes, _input=self.last, use_existing_nodes=True)
-            return GraphCursor(chain.graph, first=coalesce(self.first, chain.input), last=chain.output)
+            chain = self.graph.add_chain(
+                *nodes, _input=self.last, use_existing_nodes=True
+            )
+            return GraphCursor(
+                chain.graph, first=coalesce(self.first, chain.input), last=chain.output
+            )
 
         # If we add nothing, then nothing changed.
         return self
@@ -64,7 +68,11 @@ class GraphCursor:
 
     def __eq__(self, other):
         try:
-            return self.graph == other.graph and self.first == other.first and self.last == other.last
+            return (
+                self.graph == other.graph
+                and self.first == other.first
+                and self.last == other.last
+            )
         except AttributeError:
             return False
 
@@ -98,7 +106,7 @@ class Graph:
     def __len__(self):
         """
         The graph length is defined as its node count.
-        
+
         """
         return len(self.nodes)
 
@@ -158,7 +166,7 @@ class Graph:
     def outputs_of(self, idx_or_node, create=False):
         """
         Get a set of the outputs for a given node, node index or name.
-        
+
         """
         idx_or_node = self.index_of(idx_or_node)
 
@@ -170,7 +178,7 @@ class Graph:
         """
         Add a node without connections in this graph and returns its index.
         If _name is specified, name this node (string reference for  further usage).
-        
+
         """
         idx = len(self.nodes)
         self.edges[idx] = set()
@@ -186,11 +194,15 @@ class Graph:
     def get_or_add_node(self, new_node, *, _name=None):
         if new_node in self.nodes:
             if _name is not None:
-                raise RuntimeError("Cannot name a node that is already present in the graph.")
+                raise RuntimeError(
+                    "Cannot name a node that is already present in the graph."
+                )
             return self.index_of(new_node)
         return self.add_node(new_node, _name=_name)
 
-    def add_chain(self, *nodes, _input=BEGIN, _output=None, _name=None, use_existing_nodes=False):
+    def add_chain(
+        self, *nodes, _input=BEGIN, _output=None, _name=None, use_existing_nodes=False
+    ):
         """
         Add `nodes` as a chain in this graph.
 
@@ -201,7 +213,7 @@ class Graph:
           something.
         * If `_input` is something that can resolve to another node using `index_of` rules, then the chain will
           receive the output stream of referenced node.
-        
+
         **Output rules**
 
         * By default, this chain won't send its output anywhere. This is, most of the time, what you want.
@@ -234,7 +246,9 @@ class Graph:
                 )
 
             if _name is not None:
-                raise RuntimeError("Using add_chain(...) without nodes does not allow to use the _name parameter.")
+                raise RuntimeError(
+                    "Using add_chain(...) without nodes does not allow to use the _name parameter."
+                )
 
         for i, node in enumerate(nodes):
             _last = get_node(node, _name=_name if not i else None)
@@ -267,7 +281,7 @@ class Graph:
     def topologically_sorted_indexes(self):
         """
         Iterate in topological order, based on networkx's topological_sort() function.
-        
+
         """
         try:
             return self._topologcally_sorted_indexes_cache
@@ -299,7 +313,9 @@ class Graph:
                         explored.add(w)
                         order.append(w)
                         fringe.pop()  # done considering this node
-            self._topologcally_sorted_indexes_cache = tuple(filter(lambda i: type(i) is int, reversed(order)))
+            self._topologcally_sorted_indexes_cache = tuple(
+                filter(lambda i: type(i) is int, reversed(order))
+            )
             return self._topologcally_sorted_indexes_cache
 
     @property
@@ -324,7 +340,9 @@ class Graph:
 
     def _repr_html_(self):
         try:
-            return "<div>{}</div><pre>{}</pre>".format(self.graphviz._repr_svg_(), html.escape(repr(self)))
+            return "<div>{}</div><pre>{}</pre>".format(
+                self.graphviz._repr_svg_(), html.escape(repr(self))
+            )
         except (ExecutableNotFound, FileNotFoundError) as exc:
             return "<strong>{}</strong>: {}".format(type(exc).__name__, str(exc))
 

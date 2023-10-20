@@ -7,7 +7,13 @@ configurable transformations, either class-based or function-based.
 from bonobo.config.configurables import Configurable
 from bonobo.config.functools import partial, transformation_factory
 from bonobo.config.options import Method, Option
-from bonobo.config.processors import ContextProcessor, use_context, use_context_processor, use_no_input, use_raw_input
+from bonobo.config.processors import (
+    ContextProcessor,
+    use_context,
+    use_context_processor,
+    use_no_input,
+    use_raw_input,
+)
 from bonobo.config.services import Container, Exclusive, Service, create_container, use
 from bonobo.util import deprecated_alias
 

@@ -97,7 +97,9 @@ def test_graph_topological_sort():
     g.add_chain(b1, b2, _output=a2)
 
     assert g.topologically_sorted_indexes[-2:] == (1, 2)
-    assert g.topologically_sorted_indexes.index(3) < g.topologically_sorted_indexes.index(4)
+    assert g.topologically_sorted_indexes.index(
+        3
+    ) < g.topologically_sorted_indexes.index(4)
     assert g[3] == b1
     assert g[4] == b2
 

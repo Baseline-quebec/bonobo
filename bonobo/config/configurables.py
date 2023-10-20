@@ -33,7 +33,9 @@ class ConfigurableMeta(type):
 
                 if not name in cls.__names:
                     cls.__names.add(name)
-                    cls.__options.insort((not value.positional, value._creation_counter, name, value))
+                    cls.__options.insort(
+                        (not value.positional, value._creation_counter, name, value)
+                    )
 
         # Docstring formating
         _options_doc = []
@@ -45,7 +47,9 @@ class ConfigurableMeta(type):
             prefix = ":param {}: ".format(_param)
             for lineno, line in enumerate((_value.__doc__ or "").split("\n")):
                 _options_doc.append((" " * len(prefix) if lineno else prefix) + line)
-        cls.__doc__ = "\n\n".join(map(str.strip, filter(None, (cls.__doc__, "\n".join(_options_doc)))))
+        cls.__doc__ = "\n\n".join(
+            map(str.strip, filter(None, (cls.__doc__, "\n".join(_options_doc))))
+        )
 
     @property
     def __options__(cls):
@@ -62,7 +66,9 @@ class ConfigurableMeta(type):
         return cls.__processors_cache
 
     def __repr__(self):
-        return " ".join(("<Configurable", super(ConfigurableMeta, self).__repr__().split(" ", 1)[1]))
+        return " ".join(
+            ("<Configurable", super(ConfigurableMeta, self).__repr__().split(" ", 1)[1])
+        )
 
 
 try:
@@ -76,7 +82,7 @@ else:
     class PartiallyConfigured(_functools.partial):
         @property  # TODO XXX cache this
         def _options_values(self):
-            """ Simulate option values for partially configured objects. """
+            """Simulate option values for partially configured objects."""
             try:
                 return self.__options_values
             except AttributeError:
@@ -90,7 +96,9 @@ else:
                     if name in self.keywords:
                         continue  # already fulfilled
 
-                    self.__options_values[name] = self.args[position] if len(self.args) >= position + 1 else None
+                    self.__options_values[name] = (
+                        self.args[position] if len(self.args) >= position + 1 else None
+                    )
                     position += 1
 
                 return self.__options_values
@@ -146,7 +154,9 @@ class Configurable(metaclass=ConfigurableMeta):
             missing.discard(name)
 
         # complain if there is more options than possible.
-        extraneous = set(kwargs.keys()) - (set(next(zip(*options))) if len(options) else set())
+        extraneous = set(kwargs.keys()) - (
+            set(next(zip(*options))) if len(options) else set()
+        )
         if len(extraneous):
             raise TypeError(
                 "{}() got {} unexpected option{}: {}.".format(

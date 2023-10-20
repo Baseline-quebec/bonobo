@@ -21,7 +21,9 @@ class ConcretePrinter(PrinterInterface):
         return ";".join((self.prefix, *args))
 
 
-SERVICES = Container(printer0=ConcretePrinter(prefix="0"), printer1=ConcretePrinter(prefix="1"))
+SERVICES = Container(
+    printer0=ConcretePrinter(prefix="0"), printer1=ConcretePrinter(prefix="1")
+)
 
 
 class MyServiceDependantConfigurable(Configurable):
@@ -81,7 +83,9 @@ def test_exclusive():
 
     for thread in threads:
         thread.start()
-        time.sleep(0.01)  # this is not good practice, how to test this without sleeping ?? XXX
+        time.sleep(
+            0.01
+        )  # this is not good practice, how to test this without sleeping ?? XXX
 
     for thread in threads:
         thread.join()
