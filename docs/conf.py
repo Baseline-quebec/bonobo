@@ -148,7 +148,9 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, "Bonobo.tex", "Bonobo Documentation", "Romain Dorgueil", "manual")]
+latex_documents = [
+    (master_doc, "Bonobo.tex", "Bonobo Documentation", "Romain Dorgueil", "manual")
+]
 
 # -- Options for manual page output ---------------------------------------
 
@@ -195,7 +197,10 @@ epub_exclude_files = ["search.html"]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "django": ("https://docs.djangoproject.com/en/2.0/", "https://docs.djangoproject.com/en/2.0/_objects/"),
+    "django": (
+        "https://docs.djangoproject.com/en/2.0/",
+        "https://docs.djangoproject.com/en/2.0/_objects/",
+    ),
     "fs": ("https://docs.pyfilesystem.org/en/latest/", None),
     "python": ("https://docs.python.org/3", None),
     "requests": ("http://docs.python-requests.org/en/master/", None),

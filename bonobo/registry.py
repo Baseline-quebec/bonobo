@@ -2,7 +2,14 @@ import mimetypes
 import os
 
 from bonobo.nodes import (
-    CsvReader, CsvWriter, FileReader, FileWriter, JsonReader, JsonWriter, PickleReader, PickleWriter
+    CsvReader,
+    CsvWriter,
+    FileReader,
+    FileWriter,
+    JsonReader,
+    JsonWriter,
+    PickleReader,
+    PickleWriter,
 )
 
 FILETYPE_CSV = "text/csv"
@@ -44,7 +51,9 @@ class Registry:
             raise KeyError("Unknown factory kind {!r}.".format(kind))
 
         if format is None and name is None:
-            raise RuntimeError("Cannot guess factory without at least a filename or a format.")
+            raise RuntimeError(
+                "Cannot guess factory without at least a filename or a format."
+            )
 
         # Guess mimetype if possible
         if format is None:
@@ -62,7 +71,9 @@ class Registry:
 
         if format is None or not format in self.FACTORIES[kind]:
             raise RuntimeError(
-                "Could not resolve {kind} factory for {name} ({format}).".format(kind=kind, name=name, format=format)
+                "Could not resolve {kind} factory for {name} ({format}).".format(
+                    kind=kind, name=name, format=format
+                )
             )
 
         return self.FACTORIES[kind][format]

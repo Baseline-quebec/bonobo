@@ -47,7 +47,9 @@ class FileReader(Reader, FileHandler):
         output_type = self.output_type
 
         if output_fields and output_type:
-            raise UnrecoverableError("Cannot specify both output_fields and output_type option.")
+            raise UnrecoverableError(
+                "Cannot specify both output_fields and output_type option."
+            )
 
         if self.output_type:
             context.set_output_type(self.output_type)

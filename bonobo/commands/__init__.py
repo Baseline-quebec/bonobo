@@ -56,7 +56,9 @@ def entrypoint(args=None):
         settings.LOGGING_LEVEL.set(logging.DEBUG)
         logger.setLevel(settings.LOGGING_LEVEL.get())
 
-    logger.debug("Command: " + parsed_args["command"] + " Arguments: " + repr(parsed_args))
+    logger.debug(
+        "Command: " + parsed_args["command"] + " Arguments: " + repr(parsed_args)
+    )
 
     # Get command handler, execute, rince.
     command = commands[parsed_args.pop("command")]

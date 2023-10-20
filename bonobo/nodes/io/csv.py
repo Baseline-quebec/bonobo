@@ -57,7 +57,11 @@ class CsvReader(FileReader, CsvHandler):
     Reads a CSV and yield the values.
     """
 
-    skip = Option(int, default=0, __doc__="If set and greater than zero, the reader will skip this amount of lines.")
+    skip = Option(
+        int,
+        default=0,
+        __doc__="If set and greater than zero, the reader will skip this amount of lines.",
+    )
 
     @Method(
         positional=False,
@@ -90,7 +94,11 @@ class CsvReader(FileReader, CsvHandler):
 
 @use_context
 class CsvWriter(FileWriter, CsvHandler):
-    skip_header = Option(bool, default=False, __doc__="If true, the writer will not produce a file header.")
+    skip_header = Option(
+        bool,
+        default=False,
+        __doc__="If true, the writer will not produce a file header.",
+    )
 
     @Method(
         __doc__="""

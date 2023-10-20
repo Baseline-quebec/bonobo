@@ -24,7 +24,9 @@ def sweeten_errors():
             length = len(pre_re.sub("\\1\\2\\3", arg))
 
             arg = pre_re.sub(w("\\1") + term.bold("\\2") + w("\\3"), arg)
-            arg = re.sub(r"^  \$ (.*)", term.lightblack("  $ ") + term.reset("\\1"), arg)
+            arg = re.sub(
+                r"^  \$ (.*)", term.lightblack("  $ ") + term.reset("\\1"), arg
+            )
 
             return (arg, length)
 
@@ -38,7 +40,6 @@ def sweeten_errors():
 
         print(f(w("╔" + "═" * (line_length - 2) + "╗")))
         for i, arg in enumerate(exc.args):
-
             if i == 1:
                 print(f(prefix, " " * (line_length - 2 * SPACES), suffix))
 
@@ -51,14 +52,27 @@ def sweeten_errors():
                         term.red_bg(term.bold(" " + type(exc).__name__ + " ")),
                         " ",
                         w(arg_formatted),
-                        " " * (line_length - (arg_length + 3 + len(type(exc).__name__) + 2 * SPACES)),
+                        " "
+                        * (
+                            line_length
+                            - (arg_length + 3 + len(type(exc).__name__) + 2 * SPACES)
+                        ),
                         suffix,
                     )
                 )
             else:
                 # other lines
-                print(f(prefix, arg_formatted + " " * (line_length - arg_length - 2 * SPACES), suffix))
+                print(
+                    f(
+                        prefix,
+                        arg_formatted + " " * (line_length - arg_length - 2 * SPACES),
+                        suffix,
+                    )
+                )
 
         print(f(w("╚" + "═" * (line_length - 2) + "╝")))
 
-        logging.getLogger().debug("This error was caused by the following exception chain.", exc_info=exc_info())
+        logging.getLogger().debug(
+            "This error was caused by the following exception chain.",
+            exc_info=exc_info(),
+        )

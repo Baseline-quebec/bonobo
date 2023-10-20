@@ -20,9 +20,13 @@ def get_graph(graph=None, *, _limit=(), _print=()):
         >> ODSReader(dataset="liste-des-cafes-a-un-euro", netloc="opendata.paris.fr")
         >> PartialGraph(*_limit)
         >> bonobo.UnpackItems(0)
-        >> bonobo.Rename(name="nom_du_cafe", address="adresse", zipcode="arrondissement")
+        >> bonobo.Rename(
+            name="nom_du_cafe", address="adresse", zipcode="arrondissement"
+        )
         >> bonobo.Format(city="Paris", country="France")
-        >> bonobo.OrderFields(["name", "address", "zipcode", "city", "country", "geometry", "geoloc"])
+        >> bonobo.OrderFields(
+            ["name", "address", "zipcode", "city", "country", "geometry", "geoloc"]
+        )
         >> PartialGraph(*_print)
     )
 

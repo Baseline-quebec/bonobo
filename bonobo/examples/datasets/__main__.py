@@ -15,7 +15,9 @@ if __name__ == "__main__":
 
     with bonobo.parse_args(parser) as options:
         graph_options = examples.get_graph_options(options)
-        graph_names = list(options["target"] if options["target"] else sorted(graph_factories.keys()))
+        graph_names = list(
+            options["target"] if options["target"] else sorted(graph_factories.keys())
+        )
 
         # Create a graph with all requested subgraphs
         graph = bonobo.Graph()
@@ -40,4 +42,9 @@ if __name__ == "__main__":
                     try:
                         s3.head_object(Bucket="bonobo-examples", Key=s3_path)
                     except Exception:
-                        s3.upload_file(local_path, "bonobo-examples", s3_path, ExtraArgs={"ACL": "public-read"})
+                        s3.upload_file(
+                            local_path,
+                            "bonobo-examples",
+                            s3_path,
+                            ExtraArgs={"ACL": "public-read"},
+                        )

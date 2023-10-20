@@ -8,7 +8,11 @@ import bonobo
 from bonobo.constants import EMPTY, NOT_MODIFIED
 from bonobo.util import ValueHolder, ensure_tuple
 from bonobo.util.bags import BagType
-from bonobo.util.testing import BufferingNodeExecutionContext, ConfigurableNodeTest, StaticNodeTest
+from bonobo.util.testing import (
+    BufferingNodeExecutionContext,
+    ConfigurableNodeTest,
+    StaticNodeTest,
+)
 
 
 class CountTest(StaticNodeTest, TestCase):
@@ -130,7 +134,9 @@ MyBag = BagType("MyBag", ["a", "b", "c"])
     ],
 )
 def test_map_fields(input_, key, expected):
-    with BufferingNodeExecutionContext(bonobo.MapFields(lambda x: x ** 2, key)) as context:
+    with BufferingNodeExecutionContext(
+        bonobo.MapFields(lambda x: x**2, key)
+    ) as context:
         context.write_sync(input_)
     assert context.status == "-"
     [got] = context.get_buffer()
@@ -138,7 +144,9 @@ def test_map_fields(input_, key, expected):
 
 
 def test_map_fields_error():
-    with BufferingNodeExecutionContext(bonobo.MapFields(lambda x: x ** 2, lambda x: x == "c")) as context:
+    with BufferingNodeExecutionContext(
+        bonobo.MapFields(lambda x: x**2, lambda x: x == "c")
+    ) as context:
         context.write_sync(tuple())
     assert context.status == "!"
     assert context.defunct

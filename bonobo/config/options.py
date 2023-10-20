@@ -56,7 +56,9 @@ class Option:
 
     _creation_counter = 0
 
-    def __init__(self, type=None, *, required=True, positional=False, default=None, __doc__=None):
+    def __init__(
+        self, type=None, *, required=True, positional=False, default=None, __doc__=None
+    ):
         self.name = None
         self.type = type
         self.required = required if default is None else False
@@ -130,12 +132,16 @@ class RenamedOption(Option):
 
     def __get__(self, instance, owner):
         raise ValueError(
-            "Trying to get value from renamed option {}, try getting {} instead.".format(self.name, self.target)
+            "Trying to get value from renamed option {}, try getting {} instead.".format(
+                self.name, self.target
+            )
         )
 
     def clean(self, value):
         raise ValueError(
-            "Trying to set value of renamed option {}, try setting {} instead.".format(self.name, self.target)
+            "Trying to set value of renamed option {}, try setting {} instead.".format(
+                self.name, self.target
+            )
         )
 
 
@@ -178,7 +184,9 @@ class Method(Option):
     """
 
     def __init__(self, *, default=None, required=True, positional=True, __doc__=None):
-        super().__init__(None, required=required, positional=positional, __doc__=__doc__)
+        super().__init__(
+            None, required=required, positional=positional, __doc__=__doc__
+        )
 
         # If a callable is provided as default, then use self as if it was used as a decorator
         if default is not None:

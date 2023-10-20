@@ -10,7 +10,10 @@ from bonobo.constants import BEGIN, EMPTY, END
 from bonobo.errors import InactiveReadableError
 from bonobo.execution import events
 from bonobo.execution.contexts.base import BaseContext
-from bonobo.execution.contexts.node import AsyncNodeExecutionContext, NodeExecutionContext
+from bonobo.execution.contexts.node import (
+    AsyncNodeExecutionContext,
+    NodeExecutionContext,
+)
 from bonobo.execution.contexts.plugin import PluginExecutionContext
 
 logger = logging.getLogger(__name__)
@@ -58,8 +61,12 @@ class BaseGraphExecutionContext(BaseContext):
         super(BaseGraphExecutionContext, self).__init__(graph)
         self.dispatcher = dispatcher or EventDispatcher()
         self.graph = graph
-        self.nodes = [self.create_node_execution_context_for(node) for node in self.graph]
-        self.plugins = [self.create_plugin_execution_context_for(plugin) for plugin in plugins or ()]
+        self.nodes = [
+            self.create_node_execution_context_for(node) for node in self.graph
+        ]
+        self.plugins = [
+            self.create_plugin_execution_context_for(plugin) for plugin in plugins or ()
+        ]
         self.services = create_container(services)
 
         # Probably not a good idea to use it unless you really know what you're doing. But you can access the context.
@@ -69,7 +76,9 @@ class BaseGraphExecutionContext(BaseContext):
             outputs = self.graph.outputs_of(i)
             if len(outputs):
                 node_context.outputs = [self[j].input for j in outputs]
-            node_context.input.on_begin = partial(node_context._put, BEGIN, _control=True)
+            node_context.input.on_begin = partial(
+                node_context._put, BEGIN, _control=True
+            )
             node_context.input.on_end = partial(node_context._put, END, _control=True)
             node_context.input.on_finalize = partial(node_context.stop)
 

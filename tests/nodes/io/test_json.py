@@ -80,7 +80,10 @@ class JsonWriterTest(Json, WriterTest, TestCase):
         context.write_sync(("a", "b"), ("c", "d"))
         context.stop()
 
-        assert self.readlines() == ('[{"foo": "a", "bar": "b"},', '{"foo": "c", "bar": "d"}]')
+        assert self.readlines() == (
+            '[{"foo": "a", "bar": "b"},',
+            '{"foo": "c", "bar": "d"}]',
+        )
 
     @incontext()
     def test_fields_from_type(self, context):
@@ -117,7 +120,11 @@ class JsonWriterTest(Json, WriterTest, TestCase):
         context.write_sync(FOOBAR, OD_ABC, FOOBAZ)
         context.stop()
 
-        assert self.readlines() == ('[{"foo": "bar"},', '{"a": "A", "b": "B", "c": "C"},', '{"foo": "baz"}]')
+        assert self.readlines() == (
+            '[{"foo": "bar"},',
+            '{"a": "A", "b": "B", "c": "C"},',
+            '{"foo": "baz"}]',
+        )
 
     @incontext()
     def test_nofields_empty_args(self, context):
@@ -193,7 +200,10 @@ class LdjsonWriterTest(Ldjson, WriterTest, TestCase):
         context.write_sync(("a", "b"), ("c", "d"))
         context.stop()
 
-        assert self.readlines() == ('{"foo": "a", "bar": "b"}', '{"foo": "c", "bar": "d"}')
+        assert self.readlines() == (
+            '{"foo": "a", "bar": "b"}',
+            '{"foo": "c", "bar": "d"}',
+        )
 
     @incontext()
     def test_fields_from_type(self, context):
@@ -230,7 +240,11 @@ class LdjsonWriterTest(Ldjson, WriterTest, TestCase):
         context.write_sync(FOOBAR, OD_ABC, FOOBAZ)
         context.stop()
 
-        assert self.readlines() == ('{"foo": "bar"}', '{"a": "A", "b": "B", "c": "C"}', '{"foo": "baz"}')
+        assert self.readlines() == (
+            '{"foo": "bar"}',
+            '{"a": "A", "b": "B", "c": "C"}',
+            '{"foo": "baz"}',
+        )
 
     @incontext()
     def test_nofields_empty_args(self, context):

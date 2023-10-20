@@ -20,7 +20,13 @@ class ConvertCommand(BaseCommand):
             "-w",
             help="Choose the writer factory if it cannot be detected from extension, or if detection is wrong (use - for console pretty print).",
         )
-        parser.add_argument("--limit", "-l", type=int, help="Adds a Limit() after the reader instance.", default=None)
+        parser.add_argument(
+            "--limit",
+            "-l",
+            type=int,
+            help="Adds a Limit() after the reader instance.",
+            default=None,
+        )
         parser.add_argument(
             "--transformation",
             "-t",
@@ -65,14 +71,18 @@ class ConvertCommand(BaseCommand):
     ):
         graph = bonobo.Graph()
 
-        reader_factory = default_registry.get_reader_factory_for(input_filename, format=reader)
+        reader_factory = default_registry.get_reader_factory_for(
+            input_filename, format=reader
+        )
         reader_kwargs = _resolve_options((option or []) + (reader_option or []))
 
         if output_filename == "-":
             writer_factory = bonobo.PrettyPrinter
             writer_args = ()
         else:
-            writer_factory = default_registry.get_writer_factory_for(output_filename, format=writer)
+            writer_factory = default_registry.get_writer_factory_for(
+                output_filename, format=writer
+            )
             writer_args = (output_filename,)
         writer_kwargs = _resolve_options((option or []) + (writer_option or []))
 

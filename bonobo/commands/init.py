@@ -15,7 +15,9 @@ class InitCommand(BaseCommand):
         parser.add_argument("--force", "-f", default=False, action="store_true")
 
         target_group = parser.add_mutually_exclusive_group(required=False)
-        target_group.add_argument("--template", "-t", choices=self.TEMPLATES, default="default")
+        target_group.add_argument(
+            "--template", "-t", choices=self.TEMPLATES, default="default"
+        )
         target_group.add_argument("--package", "-p", action="store_true", default=False)
 
     def create_file_from_template(self, *, template, filename):
@@ -31,7 +33,11 @@ class InitCommand(BaseCommand):
         with open(filename, "w+") as f:
             f.write(template.render(name=name))
 
-        print(humanizer.Success("Generated {} using template {!r}.".format(filename, template_name)))
+        print(
+            humanizer.Success(
+                "Generated {} using template {!r}.".format(filename, template_name)
+            )
+        )
 
     def create_package(self, *, filename):
         _, ext = os.path.splitext(filename)
@@ -47,11 +53,16 @@ class InitCommand(BaseCommand):
 
         package_name = os.path.basename(filename)
         medikit.commands.handle_init(
-            os.path.join(os.getcwd(), filename, "Projectfile"), name=package_name, requirements=["bonobo"]
+            os.path.join(os.getcwd(), filename, "Projectfile"),
+            name=package_name,
+            requirements=["bonobo"],
         )
 
         self.logger.info('Generated "{}" package with medikit.'.format(package_name))
-        self.create_file_from_template(template="default", filename=os.path.join(filename, package_name, "__main__.py"))
+        self.create_file_from_template(
+            template="default",
+            filename=os.path.join(filename, package_name, "__main__.py"),
+        )
 
         print(
             humanizer.Success(
@@ -72,7 +83,9 @@ class InitCommand(BaseCommand):
     @humanizer.humanize()
     def handle(self, *, template, filename, package=False, force=False):
         if os.path.exists(filename) and not force:
-            raise FileExistsError("Target filename already exists, use --force to override.")
+            raise FileExistsError(
+                "Target filename already exists, use --force to override."
+            )
 
         if package:
             self.create_package(filename=filename)

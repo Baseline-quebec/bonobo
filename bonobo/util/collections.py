@@ -26,7 +26,9 @@ def _with_length_check(f):
         if length is not None:
             if length != len(result):
                 raise TypeError(
-                    "Length check failed, expected {} fields but got {}: {!r}.".format(length, len(result), result)
+                    "Length check failed, expected {} fields but got {}: {!r}.".format(
+                        length, len(result), result
+                    )
                 )
         return result
 

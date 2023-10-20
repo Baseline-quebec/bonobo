@@ -25,8 +25,12 @@ class OpenDataSoftAPI(Configurable):
 
     @ContextProcessor
     def compute_path(self, context):
-        params = (("dataset", self.dataset), ("timezone", self.timezone)) + tuple(sorted(self.kwargs.items()))
-        yield self.endpoint.format(scheme=self.scheme, netloc=self.netloc, path=self.path) + "?" + urlencode(params)
+        params = (("dataset", self.dataset), ("timezone", self.timezone)) + tuple(
+            sorted(self.kwargs.items())
+        )
+        yield self.endpoint.format(
+            scheme=self.scheme, netloc=self.netloc, path=self.path
+        ) + "?" + urlencode(params)
 
     @ContextProcessor
     def start(self, context, base_url):
@@ -35,7 +39,11 @@ class OpenDataSoftAPI(Configurable):
     def __call__(self, base_url, start, *args, **kwargs):
         while (not self.limit) or (self.limit > start):
             url = "{}&start={start}&rows={rows}".format(
-                base_url, start=start.value, rows=self.rows if not self.limit else min(self.rows, self.limit - start)
+                base_url,
+                start=start.value,
+                rows=self.rows
+                if not self.limit
+                else min(self.rows, self.limit - start),
             )
             resp = requests.get(url)
             records = resp.json().get("records", [])
@@ -44,7 +52,11 @@ class OpenDataSoftAPI(Configurable):
                 break
 
             for row in records:
-                yield {**row.get("fields", {}), "geometry": row.get("geometry", {}), "recordid": row.get("recordid")}
+                yield {
+                    **row.get("fields", {}),
+                    "geometry": row.get("geometry", {}),
+                    "recordid": row.get("recordid"),
+                }
 
             start += self.rows
 

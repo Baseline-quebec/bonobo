@@ -29,7 +29,7 @@ def create_strategy(name=None):
     """
     Create a strategy, or just returns it if it's already one.
 
-    :param name: 
+    :param name:
     :return: Strategy
     """
     import logging
@@ -47,7 +47,9 @@ def create_strategy(name=None):
         factory = STRATEGIES[name]
     except KeyError as exc:
         raise RuntimeError(
-            "Invalid strategy {}. Available choices: {}.".format(repr(name), ", ".join(sorted(STRATEGIES.keys())))
+            "Invalid strategy {}. Available choices: {}.".format(
+                repr(name), ", ".join(sorted(STRATEGIES.keys()))
+            )
         ) from exc
 
     return factory()

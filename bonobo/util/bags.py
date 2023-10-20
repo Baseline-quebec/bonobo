@@ -78,7 +78,20 @@ _field_template = """\
 )
 
 _reserved = frozenset(
-    ["_", "_cls", "_attrs", "_fields", "get", "_asdict", "_replace", "_make", "self", "_self", "tuple"] + dir(tuple)
+    [
+        "_",
+        "_cls",
+        "_attrs",
+        "_fields",
+        "get",
+        "_asdict",
+        "_replace",
+        "_make",
+        "self",
+        "_self",
+        "tuple",
+    ]
+    + dir(tuple)
 )
 
 _multiple_underscores_pattern = re.compile("__+")
@@ -132,19 +145,33 @@ def BagType(typename, fields, *, verbose=False, module=None):
 
     for i, name in enumerate([typename] + fields):
         if type(name) is not str:
-            raise TypeError("Type names and field names must be strings, got {name!r}".format(name=name))
+            raise TypeError(
+                "Type names and field names must be strings, got {name!r}".format(
+                    name=name
+                )
+            )
         if not isinstance(name, str):
-            raise TypeError("Type names and field names must be strings, got {name!r}".format(name=name))
+            raise TypeError(
+                "Type names and field names must be strings, got {name!r}".format(
+                    name=name
+                )
+            )
         if not i:
             if not name.isidentifier():
-                raise ValueError("Type names must be valid identifiers: {name!r}".format(name=name))
+                raise ValueError(
+                    "Type names must be valid identifiers: {name!r}".format(name=name)
+                )
             if iskeyword(name):
-                raise ValueError("Type names cannot be a keyword: {name!r}".format(name=name))
+                raise ValueError(
+                    "Type names cannot be a keyword: {name!r}".format(name=name)
+                )
 
     seen = set()
     for name in fields:
         if name in seen:
-            raise ValueError("Encountered duplicate field name: {name!r}".format(name=name))
+            raise ValueError(
+                "Encountered duplicate field name: {name!r}".format(name=name)
+            )
         seen.add(name)
 
     # Fill-in the class template
@@ -163,7 +190,11 @@ def BagType(typename, fields, *, verbose=False, module=None):
                 index=index,
                 name=name,
                 doc="Alias for "
-                + ("field #{}".format(index) if isinstance(fields[index], int) else repr(fields[index])),
+                + (
+                    "field #{}".format(index)
+                    if isinstance(fields[index], int)
+                    else repr(fields[index])
+                ),
             )
             for index, name in enumerate(attrs)
         ),

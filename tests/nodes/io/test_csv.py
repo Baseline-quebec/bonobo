@@ -7,7 +7,11 @@ import pytest
 from bonobo import CsvReader, CsvWriter
 from bonobo.constants import EMPTY
 from bonobo.util.testing import (
-    BufferingNodeExecutionContext, ConfigurableNodeTest, FilesystemTester, ReaderTest, WriterTest
+    BufferingNodeExecutionContext,
+    ConfigurableNodeTest,
+    FilesystemTester,
+    ReaderTest,
+    WriterTest,
 )
 
 csv_tester = FilesystemTester("csv")
@@ -21,7 +25,9 @@ incontext = ConfigurableNodeTest.incontext
 def test_read_csv_from_file_kwargs(tmpdir):
     fs, filename, services = csv_tester.get_services_for_reader(tmpdir)
 
-    with BufferingNodeExecutionContext(CsvReader(filename, **defaults), services=services) as context:
+    with BufferingNodeExecutionContext(
+        CsvReader(filename, **defaults), services=services
+    ) as context:
         context.write_sync(EMPTY)
 
     assert context.get_buffer_args_as_dicts() == [
@@ -46,11 +52,18 @@ LL = ("i", "have", "more", "values")
 
 
 class CsvReaderTest(Csv, ReaderTest, TestCase):
-    input_data = "\n".join(("id,name", "1,John Doe", "2,Jane Doe", ",DPR", "42,Elon Musk"))
+    input_data = "\n".join(
+        ("id,name", "1,John Doe", "2,Jane Doe", ",DPR", "42,Elon Musk")
+    )
 
     def check_output(self, context, *, prepend=None):
         out = context.get_buffer()
-        assert out == (prepend or list()) + [("1", "John Doe"), ("2", "Jane Doe"), ("", "DPR"), ("42", "Elon Musk")]
+        assert out == (prepend or list()) + [
+            ("1", "John Doe"),
+            ("2", "Jane Doe"),
+            ("", "DPR"),
+            ("42", "Elon Musk"),
+        ]
 
     @incontext()
     def test_nofields(self, context):

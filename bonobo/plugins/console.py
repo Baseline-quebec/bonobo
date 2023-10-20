@@ -60,11 +60,15 @@ class ConsoleOutputPlugin(Plugin):
         self._append_cache = ""
 
         self.stdout = IOBuffer()
-        self.redirect_stdout = redirect_stdout(self._stdout if self.iswindows else self.stdout)
+        self.redirect_stdout = redirect_stdout(
+            self._stdout if self.iswindows else self.stdout
+        )
         self.redirect_stdout.__enter__()
 
         self.stderr = IOBuffer()
-        self.redirect_stderr = redirect_stderr(self._stderr if self.iswindows else self.stderr)
+        self.redirect_stderr = redirect_stderr(
+            self._stderr if self.iswindows else self.stderr
+        )
         self.redirect_stderr.__enter__()
 
     def tick(self, event):
@@ -95,7 +99,9 @@ class ConsoleOutputPlugin(Plugin):
             name_suffix = "({})".format(i) if settings.DEBUG.get() else ""
 
             liveliness_color = alive_color if node.alive else dead_color
-            liveliness_prefix = " {}{}{} ".format(liveliness_color, node.status, Style.RESET_ALL)
+            liveliness_prefix = " {}{}{} ".format(
+                liveliness_color, node.status, Style.RESET_ALL
+            )
             _line = "".join(
                 (
                     liveliness_prefix,
@@ -117,7 +123,10 @@ class ConsoleOutputPlugin(Plugin):
                 "".join(
                     (
                         " `-> ",
-                        " ".join("{}{}{}: {}".format(Style.BRIGHT, k, Style.RESET_ALL, v) for k, v in append),
+                        " ".join(
+                            "{}{}{}: {}".format(Style.BRIGHT, k, Style.RESET_ALL, v)
+                            for k, v in append
+                        ),
                         CLEAR_EOL,
                     )
                 ),
@@ -173,4 +182,4 @@ def memory_usage():
     import os, psutil
 
     process = psutil.Process(os.getpid())
-    return process.memory_info()[0] / float(2 ** 20)
+    return process.memory_info()[0] / float(2**20)

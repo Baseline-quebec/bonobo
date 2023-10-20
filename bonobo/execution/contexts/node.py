@@ -8,7 +8,11 @@ from types import GeneratorType
 from bonobo.config import create_container
 from bonobo.config.processors import ContextCurrifier
 from bonobo.constants import BEGIN, END, TICK_PERIOD
-from bonobo.errors import InactiveReadableError, UnrecoverableError, UnrecoverableTypeError
+from bonobo.errors import (
+    InactiveReadableError,
+    UnrecoverableError,
+    UnrecoverableTypeError,
+)
 from bonobo.execution.contexts.base import BaseContext
 from bonobo.structs.inputs import AioInput, Input
 from bonobo.structs.tokens import Flag, Token
@@ -35,7 +39,9 @@ class NodeExecutionContext(BaseContext, WithStatistics):
 
     QueueType = Input
 
-    def __init__(self, wrapped, *, parent=None, services=None, _input=None, _outputs=None):
+    def __init__(
+        self, wrapped, *, parent=None, services=None, _input=None, _outputs=None
+    ):
         """
         Node execution context has the responsibility fo storing the state of a transformation during its execution.
 
@@ -74,7 +80,9 @@ class NodeExecutionContext(BaseContext, WithStatistics):
 
     def __repr__(self):
         name, type_name = get_name(self), get_name(type(self))
-        return "<{}({}{}){}>".format(type_name, self.status, name, self.get_statistics_as_string(prefix=" "))
+        return "<{}({}{}){}>".format(
+            type_name, self.status, name, self.get_statistics_as_string(prefix=" ")
+        )
 
     def start(self):
         """
@@ -89,7 +97,9 @@ class NodeExecutionContext(BaseContext, WithStatistics):
 
         try:
             initial = self._get_initial_context()
-            self._stack = ContextCurrifier(self.wrapped, *initial.args, **initial.kwargs)
+            self._stack = ContextCurrifier(
+                self.wrapped, *initial.args, **initial.kwargs
+            )
             if isconfigurabletype(self.wrapped):
                 try:
                     self.wrapped = self.wrapped(_final=True)
@@ -205,18 +215,26 @@ class NodeExecutionContext(BaseContext, WithStatistics):
 
     def set_input_type(self, input_type):
         if self._input_type is not None:
-            raise RuntimeError("Cannot override input type, already have %r.", self._input_type)
+            raise RuntimeError(
+                "Cannot override input type, already have %r.", self._input_type
+            )
 
         if not isinstance(input_type, type):
             raise UnrecoverableTypeError("Input types must be regular python types.")
 
         if not issubclass(input_type, tuple):
-            raise UnrecoverableTypeError("Input types must be subclasses of tuple (and act as tuples).")
+            raise UnrecoverableTypeError(
+                "Input types must be subclasses of tuple (and act as tuples)."
+            )
 
         self._input_type = input_type
 
     def get_input_fields(self):
-        return self._input_type._fields if self._input_type and hasattr(self._input_type, "_fields") else None
+        return (
+            self._input_type._fields
+            if self._input_type and hasattr(self._input_type, "_fields")
+            else None
+        )
 
     def set_input_fields(self, fields, typename="Bag"):
         self.set_input_type(BagType(typename, fields))
@@ -228,18 +246,26 @@ class NodeExecutionContext(BaseContext, WithStatistics):
 
     def set_output_type(self, output_type):
         if self._output_type is not None:
-            raise RuntimeError("Cannot override output type, already have %r.", self._output_type)
+            raise RuntimeError(
+                "Cannot override output type, already have %r.", self._output_type
+            )
 
         if type(output_type) is not type:
             raise UnrecoverableTypeError("Output types must be regular python types.")
 
         if not issubclass(output_type, tuple):
-            raise UnrecoverableTypeError("Output types must be subclasses of tuple (and act as tuples).")
+            raise UnrecoverableTypeError(
+                "Output types must be subclasses of tuple (and act as tuples)."
+            )
 
         self._output_type = output_type
 
     def get_output_fields(self):
-        return self._output_type._fields if self._output_type and hasattr(self._output_type, "_fields") else None
+        return (
+            self._output_type._fields
+            if self._output_type and hasattr(self._output_type, "_fields")
+            else None
+        )
 
     def set_output_fields(self, fields, typename="Bag"):
         self.set_output_type(BagType(typename, fields))
@@ -349,7 +375,10 @@ class NodeExecutionContext(BaseContext, WithStatistics):
             if F_INHERIT in _flags:
                 if self._output_type is None:
                     self._output_type = concat_types(
-                        self._input_type, self._input_length, self._output_type, len(_output)
+                        self._input_type,
+                        self._input_length,
+                        self._output_type,
+                        len(_output),
                     )
                 _output = _input + ensure_tuple(_output)
 

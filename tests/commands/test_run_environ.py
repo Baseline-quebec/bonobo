@@ -25,12 +25,16 @@ class TestDefaultEnvFile(EnvironmentTestCase):
         assert env.get("PATH") == "/usr/bin"
 
     def test_run_with_multiple_default_env_files(self, runner, target, env1, env2):
-        env = self.run_environ(runner, *target, "--default-env-file", env1, "--default-env-file", env2)
+        env = self.run_environ(
+            runner, *target, "--default-env-file", env1, "--default-env-file", env2
+        )
         assert env.get("SECRET") == "unknown"
         assert env.get("PASSWORD") == "sweet"
         assert env.get("PATH") == "/usr/bin"
 
-        env = self.run_environ(runner, *target, "--default-env-file", env2, "--default-env-file", env1)
+        env = self.run_environ(
+            runner, *target, "--default-env-file", env2, "--default-env-file", env1
+        )
         assert env.get("SECRET") == "unknown"
         assert env.get("PASSWORD") == "bitter"
         assert env.get("PATH") == "/usr/bin"
@@ -57,7 +61,9 @@ class TestEnvFile(EnvironmentTestCase):
 
 class TestEnvFileCombinations(EnvironmentTestCase):
     def test_run_with_both_env_files(self, runner, target, env1, env2):
-        env = self.run_environ(runner, *target, "--default-env-file", env1, "--env-file", env2)
+        env = self.run_environ(
+            runner, *target, "--default-env-file", env1, "--env-file", env2
+        )
         assert env.get("SECRET") == "unknown"
         assert env.get("PASSWORD") == "bitter"
         assert env.get("PATH") == "second"
@@ -86,11 +92,21 @@ class TestEnvVars(EnvironmentTestCase):
         assert env.get("USER") == "romain"
 
     def test_run_env(self, runner, target):
-        env = self.run_environ(runner, *target, "--env", "USER=serious", environ={"USER": "romain"})
+        env = self.run_environ(
+            runner, *target, "--env", "USER=serious", environ={"USER": "romain"}
+        )
         assert env.get("USER") == "serious"
 
     def test_run_env_mixed(self, runner, target):
-        env = self.run_environ(runner, *target, "--env", "ONE=1", "--env", 'TWO="2"', environ={"USER": "romain"})
+        env = self.run_environ(
+            runner,
+            *target,
+            "--env",
+            "ONE=1",
+            "--env",
+            'TWO="2"',
+            environ={"USER": "romain"}
+        )
         assert env.get("USER") == "romain"
         assert env.get("ONE") == "1"
         assert env.get("TWO") == "2"
@@ -99,10 +115,18 @@ class TestEnvVars(EnvironmentTestCase):
         env = self.run_environ(runner, *target, "--default-env", "USER=clown")
         assert env.get("USER") == "clown"
 
-        env = self.run_environ(runner, *target, "--default-env", "USER=clown", environ={"USER": "romain"})
+        env = self.run_environ(
+            runner, *target, "--default-env", "USER=clown", environ={"USER": "romain"}
+        )
         assert env.get("USER") == "romain"
 
         env = self.run_environ(
-            runner, *target, "--env", "USER=serious", "--default-env", "USER=clown", environ={"USER": "romain"}
+            runner,
+            *target,
+            "--env",
+            "USER=serious",
+            "--default-env",
+            "USER=clown",
+            environ={"USER": "romain"}
         )
         assert env.get("USER") == "serious"

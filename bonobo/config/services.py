@@ -84,14 +84,20 @@ class Container(dict):
         except AttributeError:
             options = {}
 
-        return {name: option.resolve(mixed, self) for name, option in options.items() if isinstance(option, Service)}
+        return {
+            name: option.resolve(mixed, self)
+            for name, option in options.items()
+            if isinstance(option, Service)
+        }
 
     def get(self, name, default=None):
         if not name in self:
             if default:
                 return default
             raise MissingServiceImplementationError(
-                "Cannot resolve service {!r} using provided service collection.".format(name)
+                "Cannot resolve service {!r} using provided service collection.".format(
+                    name
+                )
             )
         value = super().get(name)
         # XXX this is not documented and can lead to errors.

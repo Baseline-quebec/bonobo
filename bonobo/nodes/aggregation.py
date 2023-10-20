@@ -8,7 +8,9 @@ class Reduce(Configurable):
 
     @ContextProcessor
     def buffer(self, context):
-        values = yield ValueHolder(self.initializer() if callable(self.initializer) else self.initializer)
+        values = yield ValueHolder(
+            self.initializer() if callable(self.initializer) else self.initializer
+        )
         context.send(values.get())
 
     @use_raw_input

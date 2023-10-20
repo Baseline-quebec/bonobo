@@ -143,7 +143,9 @@ unsupported_operations = {
 }
 
 
-@pytest.mark.parametrize("x,y", [(5, 3), (0, 10), (0, 0), (1, 1), ("foo", "bar"), ("", "baz!")])
+@pytest.mark.parametrize(
+    "x,y", [(5, 3), (0, 10), (0, 0), (1, 1), ("foo", "bar"), ("", "baz!")]
+)
 @pytest.mark.parametrize(
     "operation,inplace_operation",
     [
@@ -172,17 +174,23 @@ def test_valueholder_integer_operations(x, y, operation, inplace_operation):
 
     # forward...
     with optional_contextmanager(pytest.raises(TypeError), ignore=is_supported):
-        with optional_contextmanager(pytest.raises(ZeroDivisionError), ignore=y or not isdiv):
+        with optional_contextmanager(
+            pytest.raises(ZeroDivisionError), ignore=y or not isdiv
+        ):
             assert operation(x, y) == operation(v, y)
 
     # backward...
     with optional_contextmanager(pytest.raises(TypeError), ignore=is_supported):
-        with optional_contextmanager(pytest.raises(ZeroDivisionError), ignore=x or not isdiv):
+        with optional_contextmanager(
+            pytest.raises(ZeroDivisionError), ignore=x or not isdiv
+        ):
             assert operation(y, x) == operation(y, v)
 
     # in place...
     if inplace_operation is not None:
         with optional_contextmanager(pytest.raises(TypeError), ignore=is_supported):
-            with optional_contextmanager(pytest.raises(ZeroDivisionError), ignore=y or not isdiv):
+            with optional_contextmanager(
+                pytest.raises(ZeroDivisionError), ignore=y or not isdiv
+            ):
                 inplace_operation(v, y)
                 assert v == operation(x, y)

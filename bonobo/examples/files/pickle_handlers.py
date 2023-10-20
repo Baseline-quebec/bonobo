@@ -61,7 +61,10 @@ def get_graph(*, _limit=(), _print=()):
 
 
 def get_services():
-    return {**examples.get_services(), "fs": TarFS(bonobo.get_examples_path("datasets", "static", "spam.tgz"))}
+    return {
+        **examples.get_services(),
+        "fs": TarFS(bonobo.get_examples_path("datasets", "static", "spam.tgz")),
+    }
 
 
 if __name__ == "__main__":

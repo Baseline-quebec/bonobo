@@ -29,7 +29,7 @@ def optional_contextmanager(cm, *, ignore=False):
 class FilesystemTester:
     """
     Helper that create temporary filesystem service to be used in unit tests.
-    
+
     """
 
     def __init__(self, extension="txt", mode="w", *, input_data=""):
@@ -77,13 +77,16 @@ class BufferingContext:
         return self.buffer
 
     def get_buffer_args_as_dicts(self):
-        return [row._asdict() if hasattr(row, "_asdict") else dict(row) for row in self.buffer]
+        return [
+            row._asdict() if hasattr(row, "_asdict") else dict(row)
+            for row in self.buffer
+        ]
 
 
 class BufferingNodeExecutionContext(BufferingContext, NodeExecutionContext):
     """
     Node execution context that actually stores the node outputs in a buffer, so one can test it afterward.
-    
+
     """
 
     def __init__(self, *args, buffer=None, **kwargs):
@@ -94,7 +97,7 @@ class BufferingNodeExecutionContext(BufferingContext, NodeExecutionContext):
 class BufferingGraphExecutionContext(BufferingContext, GraphExecutionContext):
     """
     Graph execution context that uses buffering node execution contexts, all nodes buffering to the same buffer.
-    
+
     """
 
     NodeExecutionContextType = BufferingNodeExecutionContext
@@ -110,13 +113,17 @@ class BufferingGraphExecutionContext(BufferingContext, GraphExecutionContext):
 def runner(f):
     @functools.wraps(f)
     def wrapped_runner(*args, catch_errors=False):
-        with redirect_stdout(io.StringIO()) as stdout, redirect_stderr(io.StringIO()) as stderr:
+        with redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+            io.StringIO()
+        ) as stderr:
             try:
                 f(list(args))
             except BaseException as exc:
                 if not catch_errors:
                     raise
-                elif isinstance(catch_errors, BaseException) and not isinstance(exc, catch_errors):
+                elif isinstance(catch_errors, BaseException) and not isinstance(
+                    exc, catch_errors
+                ):
                     raise
                 return stdout.getvalue(), stderr.getvalue(), exc
         return stdout.getvalue(), stderr.getvalue()
@@ -126,7 +133,7 @@ def runner(f):
 
 @runner
 def runner_entrypoint(args):
-    """Run bonobo using the python command entrypoint directly (bonobo.commands.entrypoint). """
+    """Run bonobo using the python command entrypoint directly (bonobo.commands.entrypoint)."""
     return entrypoint(args)
 
 
@@ -174,7 +181,9 @@ class StaticNodeTest:
 
     @contextlib.contextmanager
     def execute(self, *args, **kwargs):
-        with self.NodeExecutionContextType(type(self).node, services=self.services) as context:
+        with self.NodeExecutionContextType(
+            type(self).node, services=self.services
+        ) as context:
             yield context
 
     def call(self, *args, **kwargs):
@@ -201,11 +210,15 @@ class ConfigurableNodeTest:
         return decorator
 
     def create(self, *args, **kwargs):
-        return self.NodeType(*self.get_create_args(*args), **self.get_create_kwargs(**kwargs))
+        return self.NodeType(
+            *self.get_create_args(*args), **self.get_create_kwargs(**kwargs)
+        )
 
     @contextlib.contextmanager
     def execute(self, *args, **kwargs):
-        with self.NodeExecutionContextType(self.create(*args, **kwargs), services=self.services) as context:
+        with self.NodeExecutionContextType(
+            self.create(*args, **kwargs), services=self.services
+        ) as context:
             yield context
 
     def get_create_args(self, *args):
@@ -221,7 +234,7 @@ class ConfigurableNodeTest:
 class ReaderTest(ConfigurableNodeTest):
     """
     Helper class to test reader transformations.
-    
+
     """
 
     ReaderNodeType = None
@@ -236,7 +249,9 @@ class ReaderTest(ConfigurableNodeTest):
     @pytest.fixture(autouse=True)
     def _reader_test_fixture(self, tmpdir):
         fs_tester = self.get_filesystem_tester()
-        self.fs, self.filename, self.services = fs_tester.get_services_for_reader(tmpdir)
+        self.fs, self.filename, self.services = fs_tester.get_services_for_reader(
+            tmpdir
+        )
         self.tmpdir = tmpdir
 
     def get_create_args(self, *args):
@@ -244,7 +259,11 @@ class ReaderTest(ConfigurableNodeTest):
 
     def test_customizable_output_type_transform_not_a_type(self):
         context = self.NodeExecutionContextType(
-            self.create(*self.get_create_args(), output_type=str.upper, **self.get_create_kwargs()),
+            self.create(
+                *self.get_create_args(),
+                output_type=str.upper,
+                **self.get_create_kwargs()
+            ),
             services=self.services,
         )
         with pytest.raises(TypeError):
@@ -253,7 +272,9 @@ class ReaderTest(ConfigurableNodeTest):
     def test_customizable_output_type_transform_not_a_tuple(self):
         context = self.NodeExecutionContextType(
             self.create(
-                *self.get_create_args(), output_type=type("UpperString", (str,), {}), **self.get_create_kwargs()
+                *self.get_create_args(),
+                output_type=type("UpperString", (str,), {}),
+                **self.get_create_kwargs()
             ),
             services=self.services,
         )
@@ -264,7 +285,7 @@ class ReaderTest(ConfigurableNodeTest):
 class WriterTest(ConfigurableNodeTest):
     """
     Helper class to test writer transformations.
-    
+
     """
 
     WriterNodeType = None
@@ -279,7 +300,9 @@ class WriterTest(ConfigurableNodeTest):
     @pytest.fixture(autouse=True)
     def _writer_test_fixture(self, tmpdir):
         fs_tester = self.get_filesystem_tester()
-        self.fs, self.filename, self.services = fs_tester.get_services_for_writer(tmpdir)
+        self.fs, self.filename, self.services = fs_tester.get_services_for_writer(
+            tmpdir
+        )
         self.tmpdir = tmpdir
 
     def get_create_args(self, *args):
@@ -294,7 +317,7 @@ class WriterTest(ConfigurableNodeTest):
 def get_pseudo_nodes(*names):
     """
     Generates a serie of named sentinels to test graph APIs.
-    
+
     >>> a, b, c = get_pseudo_nodes(*"abc")
 
     Alternate syntax:

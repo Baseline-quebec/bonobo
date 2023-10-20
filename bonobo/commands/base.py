@@ -35,7 +35,9 @@ class BaseCommand:
         """
         The actual logic of the command. Subclasses must implement this method.
         """
-        raise NotImplementedError("Subclasses of BaseCommand must provide a handle() method")
+        raise NotImplementedError(
+            "Subclasses of BaseCommand must provide a handle() method"
+        )
 
 
 class BaseGraphCommand(BaseCommand):
@@ -64,7 +66,11 @@ class BaseGraphCommand(BaseCommand):
     def handle(self, file, mod, **options):
         with humanizer.humanize():
             options = self.parse_options(**options)
-        with self.read(file, mod, **options) as (graph, graph_execution_options, options):
+        with self.read(file, mod, **options) as (
+            graph,
+            graph_execution_options,
+            options,
+        ):
             return self.do_handle(graph, **graph_execution_options, **options)
 
     def do_handle(self, graph, **options):

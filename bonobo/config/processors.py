@@ -109,7 +109,11 @@ class ContextCurrifier:
                     "Kwargs: {kwargs}\n"
                     "Signature: {sig}"
                 ).format(
-                    wrapped=self.wrapped, args=self.args, input=_input, kwargs=self.kwargs, sig=signature(self.wrapped)
+                    wrapped=self.wrapped,
+                    args=self.args,
+                    input=_input,
+                    kwargs=self.kwargs,
+                    sig=signature(self.wrapped),
                 )
             ) from exc
         return self.wrapped(*bound.args, **bound.kwargs)
@@ -138,7 +142,9 @@ class ContextCurrifier:
                 pass
             else:
                 # No error ? We should have had StopIteration ...
-                raise RuntimeError("Context processors should not yield more than once.")
+                raise RuntimeError(
+                    "Context processors should not yield more than once."
+                )
         self._stack, self._stack_values = None, None
 
     @contextmanager
@@ -194,7 +200,9 @@ def use_context_processor(context_processor):
 def _use_input_format(input_format):
     if input_format not in INPUT_FORMATS:
         raise ValueError(
-            "Invalid input format {!r}. Choices: {}".format(input_format, ", ".join(sorted(INPUT_FORMATS)))
+            "Invalid input format {!r}. Choices: {}".format(
+                input_format, ", ".join(sorted(INPUT_FORMATS))
+            )
         )
 
     def _set_input_format(f):

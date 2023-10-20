@@ -22,9 +22,14 @@ class FileHandler(Configurable):
     """
 
     path = Option(
-        filesystem_path, required=True, positional=True, __doc__="Path to use within the provided filesystem."
+        filesystem_path,
+        required=True,
+        positional=True,
+        __doc__="Path to use within the provided filesystem.",
     )  # type: str
-    eol = Option(str, default="\n", __doc__="Character to use as line separator.")  # type: str
+    eol = Option(
+        str, default="\n", __doc__="Character to use as line separator."
+    )  # type: str
     mode = Option(str, __doc__="What mode to use for open() call.")  # type: str
     encoding = Option(str, default="utf-8", __doc__="Encoding.")  # type: str
     fs = Service("fs", __doc__="The filesystem instance to use.")  # type: str

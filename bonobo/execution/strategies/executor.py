@@ -36,7 +36,10 @@ class ExecutorStrategy(Strategy):
             try:
                 context.start(self.get_starter(executor, futures))
             except Exception:
-                logger.critical("Exception caught while starting execution context.", exc_info=sys.exc_info())
+                logger.critical(
+                    "Exception caught while starting execution context.",
+                    exc_info=sys.exc_info(),
+                )
 
             while context.alive:
                 try:
@@ -61,13 +64,16 @@ class ExecutorStrategy(Strategy):
                         node.loop()
                 except Exception:
                     logging.getLogger(__name__).critical(
-                        "Critical error in threadpool node starter.", exc_info=sys.exc_info()
+                        "Critical error in threadpool node starter.",
+                        exc_info=sys.exc_info(),
                     )
 
             try:
                 futures.append(executor.submit(_runner))
             except Exception:
-                logging.getLogger(__name__).critical("futures.append", exc_info=sys.exc_info())
+                logging.getLogger(__name__).critical(
+                    "futures.append", exc_info=sys.exc_info()
+                )
 
         return starter
 
@@ -96,9 +102,9 @@ class AsyncThreadPoolExecutorStrategy(ThreadPoolExecutorStrategy):
         return asyncio.get_event_loop()
 
     def create_graph_execution_context(self, *args, **kwargs):
-        return super(AsyncThreadPoolExecutorStrategy, self).create_graph_execution_context(
-            *args, **kwargs, loop=self.loop
-        )
+        return super(
+            AsyncThreadPoolExecutorStrategy, self
+        ).create_graph_execution_context(*args, **kwargs, loop=self.loop)
 
     def get_starter(self, executor, futures):
         return functools.partial(
