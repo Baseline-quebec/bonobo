@@ -8,6 +8,8 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
+
+
 # Py3 compatibility hacks, borrowed from IPython.
 try:
     execfile
@@ -42,33 +44,33 @@ else:
     version = version_ns.get('__version__', 'dev')
 
 setup(
-    author='Romain Dorgueil',
-    author_email='romain@dorgueil.net',
+    author='Baseline',
+    author_email='info@baseline.quebec',
     data_files=[('share/jupyter/nbextensions/bonobo-jupyter', [
         'bonobo/contrib/jupyter/static/extension.js',
         'bonobo/contrib/jupyter/static/index.js',
         'bonobo/contrib/jupyter/static/index.js.map'
     ])],
     description=
-    ('Bonobo, a simple, modern and atomic extract-transform-load toolkit for '
-     'python 3.5+.'),
+    ('Bonobo 2.0: A reboot of Bonobo, the simple, modern and atomic extract-transform-load toolkit for '
+     'python 3.8+.'),
     license='Apache License, Version 2.0',
-    name='bonobo',
-    python_requires='>=3.5',
+    name='bonobo2',
+    python_requires='>=3.8',
     version=version,
     long_description=long_description,
     classifiers=classifiers,
     packages=find_packages(exclude=['ez_setup', 'example', 'test']),
     include_package_data=True,
     install_requires=[
-        'cached-property ~= 1.5', 'fs ~= 2.4', 'graphviz ~= 0.13',
-        'jinja2 ~= 2.10', 'mondrian ~= 0.8', 'packaging ~= 20.3',
-        'psutil ~= 5.7', 'python-slugify ~= 4.0.0', 'requests ~= 2.23',
-        'stevedore ~= 1.32', 'whistle ~= 1.0'
+        'cached-property ~= 1.4', 'fs ~= 2.0', 'graphviz >= 0.8, < 0.9',
+        'jinja2 ~= 2.11.3', 'mondrian ~= 0.8', 'packaging >= 20.9',
+        'psutil ~= 5.4', 'python-slugify ~= 1.2.0', 'requests >= 2.0',
+        'stevedore ~= 1.27', 'whistle ~= 1.0'
     ],
     extras_require={
         'dev': [
-            'cookiecutter >= 1.7, < 1.8', 'coverage ~= 4.5', 'pytest ~= 4.6',
+            'cookiecutter >= 1.5, < 1.6', 'coverage ~= 4.5', 'pytest >= 4.6',
             'pytest-cov ~= 2.7', 'pytest-timeout >= 1, < 2', 'sphinx ~= 1.7',
             'sphinx-sitemap >= 2.1, < 2.2'
         ],
@@ -88,7 +90,6 @@ setup(
         ],
         'console_scripts': ['bonobo = bonobo.commands:entrypoint']
     },
-    url='https://www.bonobo-project.org/',
-    download_url='https://github.com/python-bonobo/bonobo/tarball/{version}'.
-    format(version=version),
+    url='https://github.com/Baseline-quebec/bonobo/',
+    download_url="https://github.com/Baseline-quebec/bonobo/archive/refs/tags/" + version + ".zip",
 )

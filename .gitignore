@@ -38,3 +38,4 @@
 /tags
 pip-delete-this-directory.txt
 pip-log.txt
+/venv/
