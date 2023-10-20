@@ -52,10 +52,10 @@ setup(
         'bonobo/contrib/jupyter/static/index.js.map'
     ])],
     description=
-    ('Bonobo for Baseline, a simple, modern and atomic extract-transform-load toolkit for '
-     'python 3.5+.'),
+    ('Bonobo 2.0: A reboot of Bonobo, the simple, modern and atomic extract-transform-load toolkit for '
+     'python 3.8+.'),
     license='Apache License, Version 2.0',
-    name='bonobo_baseline',
+    name='bonobo2',
     python_requires='>=3.8',
     version=version,
     long_description=long_description,
