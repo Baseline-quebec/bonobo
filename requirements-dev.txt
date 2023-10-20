@@ -20,7 +20,7 @@ jinja2-time==0.2.0
 jinja2==2.10.1
 markupsafe==1.1.1
 more-itertools==7.1.0
-packaging==19.0
+packaging>=20.9
 pathlib2==2.3.4
 pluggy==0.12.0
 poyo==0.4.2

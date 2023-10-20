@@ -62,8 +62,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'cached-property ~= 1.4', 'fs ~= 2.0', 'graphviz >= 0.8, < 0.9',
-        'jinja2 ~= 2.9', 'mondrian ~= 0.8', 'packaging ~= 19.0',
-        'psutil ~= 5.4', 'python-slugify ~= 1.2.0', 'requests ~= 2.0',
+        'jinja2 ~= 2.11.3', 'mondrian ~= 0.8', 'packaging >= 20.9',
+        'psutil ~= 5.4', 'python-slugify ~= 1.2.0', 'requests >= 2.0',
         'stevedore ~= 1.27', 'whistle ~= 1.0'
     ],
     extras_require={
