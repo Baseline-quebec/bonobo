@@ -22,8 +22,11 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Build and publish
+        run: |
+          python setup.py sdist bdist_wheel
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
 
 
 
