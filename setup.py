@@ -57,11 +57,11 @@ setup(
     ],
     description=(
         "Bonobo 2.0: A reboot of Bonobo, the simple, modern and atomic extract-transform-load toolkit for "
-        "python 3.8+."
+        "python 3.10+."
     ),
     license="Apache License, Version 2.0",
     name="bonobo2",
-    python_requires=">=3.8",
+    python_requires=">=3.10",
     version=version,
     long_description=long_description,
     classifiers=classifiers,
